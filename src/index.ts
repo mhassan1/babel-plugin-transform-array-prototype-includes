@@ -3,11 +3,10 @@ import { Visitor } from '@babel/traverse';
 
 type CallExpressionVisited = BabelTypes.CallExpression & { visited?: boolean };
 
-export default function pluginTransformArrayIncludes({
-  types: t,
-}: {
-  types: typeof BabelTypes;
-}): { name: string; visitor: Visitor } {
+export default function pluginTransformArrayIncludes({ types: t }: { types: typeof BabelTypes }): {
+  name: string;
+  visitor: Visitor;
+} {
   return {
     name: 'transform array includes',
     visitor: {
