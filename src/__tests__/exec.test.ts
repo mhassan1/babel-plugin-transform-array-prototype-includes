@@ -1,9 +1,9 @@
-import { describe, expect, it } from '@jest/globals';
-import { transform } from '@babel/core';
+import { describe, it, expect } from 'vitest';
+import { transformSync } from '@babel/core';
 import plugin from '../index';
 
 const executeTransformed = (code: string) => {
-  const result = transform(code, { plugins: [plugin] });
+  const result = transformSync(code, { plugins: [plugin] });
   return eval(result?.code || 'null');
 };
 

@@ -26,10 +26,12 @@ export default function pluginTransformArrayIncludes({ types: t }: { types: type
           return;
         }
 
+        if (t.isSuper(callee.object)) return;
+
         const indexOfExpression = t.binaryExpression(
           '!==',
           t.callExpression(t.memberExpression(callee.object, t.identifier('indexOf')), args),
-          t.numericLiteral(-1),
+          t.unaryExpression('-', t.numericLiteral(1)),
         );
 
         if (t.isArrayExpression(callee.object)) {
