@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "test": "vitest",
+    "test": "vitest run",
     "build": "tsc",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "eslint .",
