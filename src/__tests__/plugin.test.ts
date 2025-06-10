@@ -42,5 +42,33 @@ pluginTester({
       output:
         'class a extends b {\n  constructor() {\n    Array.isArray(this) ? super.indexOf(1) !== -1 : super.includes(1);\n  }\n}',
     },
+    {
+      code: 'a.b.includes(1);',
+      output: 'Array.isArray(a.b) ? a.b.indexOf(1) !== -1 : a.b.includes(1);',
+    },
+    {
+      code: 'a?.b.includes(1);',
+      output: 'Array.isArray(a?.b) ? a?.b.indexOf(1) !== -1 : a?.b.includes(1);',
+    },
+    {
+      code: 'a.b?.includes(1);',
+      output: 'Array.isArray(a.b) ? a.b?.indexOf(1) !== -1 : a.b?.includes(1);',
+    },
+    {
+      code: 'a.b.includes?.(1);',
+      output: 'Array.isArray(a.b) ? a.b.indexOf?.(1) !== -1 : a.b.includes?.(1);',
+    },
+    {
+      code: 'a?.b.includes?.(1);',
+      output: 'Array.isArray(a?.b) ? a?.b.indexOf?.(1) !== -1 : a?.b.includes?.(1);',
+    },
+    {
+      code: 'a.b?.includes?.(1);',
+      output: 'Array.isArray(a.b) ? a.b?.indexOf?.(1) !== -1 : a.b?.includes?.(1);',
+    },
+    {
+      code: '[]?.includes(1);',
+      output: '[]?.indexOf(1) !== -1;',
+    },
   ],
 });
