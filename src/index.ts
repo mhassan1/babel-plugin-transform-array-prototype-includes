@@ -26,8 +26,6 @@ export default function pluginTransformArrayIncludes({ types: t }: { types: type
           return;
         }
 
-        if (t.isSuper(callee.object)) return;
-
         const indexOfExpression = t.binaryExpression(
           '!==',
           t.callExpression(t.memberExpression(callee.object, t.identifier('indexOf')), args),
@@ -39,7 +37,7 @@ export default function pluginTransformArrayIncludes({ types: t }: { types: type
         } else {
           const isArrayExpression = t.callExpression(
             t.memberExpression(t.identifier('Array'), t.identifier('isArray')),
-            [callee.object],
+            [t.isSuper(callee.object) ? t.thisExpression() : callee.object],
           );
 
           includesExpression.visited = true;
