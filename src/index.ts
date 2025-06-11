@@ -51,8 +51,8 @@ export default function pluginTransformArrayIncludes({ types: t }: { types: type
       const callExpressionArgs = t.isArrayExpression(callee.object)
         ? args
         : argsHaveSpreadElement
-        ? [t.spreadElement(t.identifier('a'))]
-        : innerArgs;
+          ? [t.spreadElement(t.identifier('a'))]
+          : innerArgs;
       const callExpression = t.isCallExpression(includesExpression)
         ? t.callExpression(memberExpression, callExpressionArgs)
         : t.optionalCallExpression(memberExpression, callExpressionArgs, includesExpression.optional);
