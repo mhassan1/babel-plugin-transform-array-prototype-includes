@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-transform-array-prototype-includes",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Transforms `arr.includes(value)` to ES5 without a polyfill",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
