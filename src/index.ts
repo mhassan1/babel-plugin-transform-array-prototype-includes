@@ -1,8 +1,10 @@
 import * as BabelTypes from '@babel/types';
 import { Visitor } from '@babel/traverse';
 
-type CallExpressionVisited = BabelTypes.CallExpression & { visited?: boolean };
-type OptionalCallExpressionVisited = BabelTypes.OptionalCallExpression & { visited?: boolean };
+const VISITED = Symbol('visited');
+
+type CallExpressionVisited = BabelTypes.CallExpression & { [VISITED]?: boolean };
+type OptionalCallExpressionVisited = BabelTypes.OptionalCallExpression & { [VISITED]?: boolean };
 type VisitorMethodParameters =
   // @ts-expect-error Type 'undefined' is not assignable to type '(...args: any) => any'.ts(2344)
   | Parameters<Visitor['CallExpression']>[0]
@@ -16,7 +18,7 @@ export default function pluginTransformArrayIncludes({ types: t }: { types: type
   const CallExpressionOrOptionalCallExpression = (path: VisitorMethodParameters) => {
     const includesExpression: CallExpressionVisited | OptionalCallExpressionVisited = path.node;
 
-    if (includesExpression.visited) return;
+    if (includesExpression[VISITED]) return;
 
     const { callee, arguments: args } = includesExpression;
 
@@ -74,7 +76,7 @@ export default function pluginTransformArrayIncludes({ types: t }: { types: type
       ]);
 
       const newIncludesExpression = makeCallExpression('includes');
-      newIncludesExpression.visited = true;
+      newIncludesExpression[VISITED] = true;
 
       const functionBlockStatement = t.blockStatement([
         t.returnStatement(t.conditionalExpression(isArrayExpression, indexOfExpression, newIncludesExpression)),
