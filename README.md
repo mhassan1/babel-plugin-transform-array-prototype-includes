@@ -20,8 +20,8 @@ arr['includes'](1);
 ```javascript
 [1, 2, 3].indexOf(1) !== -1;
 [1, 2, 3].indexOf(1) !== -1;
-Array.isArray(arr) ? arr.indexOf(1) !== -1 : arr.includes(1);
-Array.isArray(arr) ? arr.indexOf(1) !== -1 : arr['includes'](1);
+(function (o, a0) { return Array.isArray(o) ? o.indexOf(a0) !== -1 : o.includes(a0); })(arr, 1);
+(function (o, a0) { return Array.isArray(o) ? o.indexOf(a0) !== -1 : o.includes(a0); })(arr, 1);
 ```
 
 ## Installation

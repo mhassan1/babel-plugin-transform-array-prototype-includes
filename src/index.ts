@@ -29,14 +29,37 @@ export default function pluginTransformArrayIncludes({ types: t }: { types: type
       return;
     }
 
-    const indexOfMemberExpression = t.isMemberExpression(callee)
-      ? t.memberExpression(callee.object, t.identifier('indexOf'))
-      : t.optionalMemberExpression(callee.object, t.identifier('indexOf'), undefined, callee.optional);
+    const argsHaveSpreadElement = args.some((arg) => t.isSpreadElement(arg));
+    const innerArgs = Array(args.length)
+      .fill(undefined)
+      .map(function (_, i) {
+        return t.identifier('a' + i);
+      });
 
-    const indexOfCallExpression = t.isCallExpression(includesExpression)
-      ? t.callExpression(indexOfMemberExpression, args)
-      : t.optionalCallExpression(indexOfMemberExpression, args, includesExpression.optional);
+    const makeCallExpression = (fnName: string): CallExpressionVisited | OptionalCallExpressionVisited => {
+      const memberExpression = t.isMemberExpression(callee)
+        ? t.memberExpression(
+            t.isArrayExpression(callee.object) || t.isSuper(callee.object) ? callee.object : t.identifier('o'),
+            t.identifier(fnName),
+          )
+        : t.optionalMemberExpression(
+            t.isArrayExpression(callee.object) || t.isSuper(callee.object) ? callee.object : t.identifier('o'),
+            t.identifier(fnName),
+            undefined,
+            true,
+          );
+      const callExpressionArgs = t.isArrayExpression(callee.object)
+        ? args
+        : argsHaveSpreadElement
+        ? [t.spreadElement(t.identifier('a'))]
+        : innerArgs;
+      const callExpression = t.isCallExpression(includesExpression)
+        ? t.callExpression(memberExpression, callExpressionArgs)
+        : t.optionalCallExpression(memberExpression, callExpressionArgs, includesExpression.optional);
+      return callExpression;
+    };
 
+    const indexOfCallExpression = makeCallExpression('indexOf');
     const indexOfExpression = t.binaryExpression(
       '!==',
       indexOfCallExpression,
@@ -47,14 +70,30 @@ export default function pluginTransformArrayIncludes({ types: t }: { types: type
       path.replaceWith(indexOfExpression);
     } else {
       const isArrayExpression = t.callExpression(t.memberExpression(t.identifier('Array'), t.identifier('isArray')), [
-        t.isSuper(callee.object) ? t.thisExpression() : callee.object,
+        t.isSuper(callee.object) ? t.thisExpression() : t.identifier('o'),
       ]);
 
-      includesExpression.visited = true;
+      const newIncludesExpression = makeCallExpression('includes');
+      newIncludesExpression.visited = true;
 
-      path.replaceWith(
-        t.expressionStatement(t.conditionalExpression(isArrayExpression, indexOfExpression, includesExpression)),
-      );
+      const functionBlockStatement = t.blockStatement([
+        t.returnStatement(t.conditionalExpression(isArrayExpression, indexOfExpression, newIncludesExpression)),
+      ]);
+
+      const functionArgs = argsHaveSpreadElement
+        ? [t.identifier('o'), t.restElement(t.identifier('a'))]
+        : [t.identifier('o')].concat(innerArgs);
+
+      const functionDeclaration = t.isSuper(callee.object)
+        ? t.arrowFunctionExpression(functionArgs, functionBlockStatement)
+        : t.functionExpression(undefined, functionArgs, functionBlockStatement);
+
+      const functionCallArgs = [t.isSuper(callee.object) ? t.identifier('undefined') : callee.object];
+      Array.prototype.push.apply(functionCallArgs, args);
+
+      const functionCallExpression = t.callExpression(functionDeclaration, functionCallArgs);
+
+      path.replaceWith(functionCallExpression);
     }
   };
   return {
