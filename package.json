@@ -47,7 +47,7 @@
     "eslint": "^10.4.0",
     "prettier": "^3.5.3",
     "typescript": "~5.8.3",
-    "vitest": "^3.2.3"
+    "vitest": "^4.1.0"
   },
   "dependenciesMeta": {
     "core-js": {
