@@ -5,8 +5,9 @@
     "declaration": true,
     "outDir": "./lib",
     "skipLibCheck": true,
-    "strict": true
+    "strict": true,
+    "types": ["vitest/globals"]
   },
   "include": ["src"],
-  "exclude": ["node_modules", "**/__tests__/*"]
+  "exclude": ["node_modules"]
 }

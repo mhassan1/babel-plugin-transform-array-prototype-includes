@@ -1,6 +1,3 @@
-import { describe, it } from 'vitest';
-globalThis.describe = describe;
-globalThis.it = it;
 import pluginTester from 'babel-plugin-tester';
 import plugin from '../index';
 

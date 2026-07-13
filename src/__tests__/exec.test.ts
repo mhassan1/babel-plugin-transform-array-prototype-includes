@@ -1,4 +1,3 @@
-import { describe, it, expect } from 'vitest';
 import { transformSync } from '@babel/core';
 import plugin from '../index';
 

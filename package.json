@@ -5,10 +5,10 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "test": "vitest run",
+    "test": "vitest --globals run",
     "build": "tsc",
     "format": "prettier --write \"src/**/*.ts\" eslint.config.js",
-    "lint": "eslint src",
+    "lint": "eslint src && tsc --noEmit",
     "prepare": "yarn build",
     "prepublishOnly": "yarn test && yarn lint",
     "preversion": "yarn lint",
@@ -58,7 +58,8 @@
     }
   },
   "files": [
-    "lib/**/*"
+    "lib/index.js",
+    "lib/index.d.ts"
   ],
   "packageManager": "yarn@4.14.1"
 }
