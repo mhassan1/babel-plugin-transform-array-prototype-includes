@@ -7,7 +7,7 @@
   "scripts": {
     "test": "vitest --globals run",
     "build": "tsc",
-    "format": "prettier --write \"src/**/*.ts\" eslint.config.js",
+    "format": "prettier --write \"src/**/*.ts\" eslint.config.mjs",
     "lint": "eslint src && tsc --noEmit",
     "prepare": "yarn build",
     "prepublishOnly": "yarn test && yarn lint",
@@ -36,17 +36,15 @@
     "@babel/core": "^8.0.0-beta.0",
     "@babel/traverse": "^8.0.0-beta.0",
     "@babel/types": "^8.0.0-beta.0",
-    "@eslint/eslintrc": "^3.3.5",
     "@eslint/js": "^10.0.1",
     "@types/babel-plugin-tester": "^9.0.5",
     "@types/babel__core": "^7.20.1",
     "@types/babel__traverse": "^7.20.1",
-    "@typescript-eslint/eslint-plugin": "^8.60.0",
-    "@typescript-eslint/parser": "^8.60.0",
     "babel-plugin-tester": "^11.0.4",
     "eslint": "^10.4.0",
     "prettier": "^3.5.3",
     "typescript": "~5.8.3",
+    "typescript-eslint": "^8.72.2",
     "vitest": "^4.1.0"
   },
   "dependenciesMeta": {
