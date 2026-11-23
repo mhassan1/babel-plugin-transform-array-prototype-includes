@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "test": "vitest --globals run",
+    "test": "vitest --globals run .ts",
     "build": "tsc",
     "format": "prettier --write \"src/**/*.ts\" eslint.config.mjs",
     "lint": "eslint src && tsc --noEmit",
