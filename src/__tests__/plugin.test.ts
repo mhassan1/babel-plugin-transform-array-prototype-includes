@@ -1,4 +1,4 @@
-import pluginTester from 'babel-plugin-tester';
+import { pluginTester } from 'babel-plugin-tester';
 import plugin from '../index';
 
 pluginTester({
