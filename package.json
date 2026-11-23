@@ -33,16 +33,14 @@
   },
   "homepage": "https://github.com/mhassan1/babel-plugin-transform-array-prototype-includes#readme",
   "devDependencies": {
-    "@babel/core": "^8.0.0-beta.0",
-    "@babel/traverse": "^8.0.0-beta.0",
-    "@babel/types": "^8.0.0-beta.0",
+    "@babel/core": "^8.0.0",
+    "@babel/traverse": "^8.0.0",
+    "@babel/types": "^8.0.0",
     "@eslint/js": "^10.0.1",
-    "@types/babel__core": "^7.20.1",
-    "@types/babel__traverse": "^7.20.1",
     "babel-plugin-tester": "^12.0.0",
     "eslint": "^10.4.0",
     "prettier": "^3.5.3",
-    "typescript": "~5.8.3",
+    "typescript": "~6.0.3",
     "typescript-eslint": "^8.72.2",
     "vite": "^8.3.8",
     "vitest": "^5.1.1"
@@ -59,5 +57,5 @@
     "lib/index.js",
     "lib/index.d.ts"
   ],
-  "packageManager": "yarn@4.14.1"
+  "packageManager": "yarn@4.19.0"
 }
